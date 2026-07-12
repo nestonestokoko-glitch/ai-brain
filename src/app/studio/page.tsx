@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import Sidebar from '@/components/workspace/Sidebar';
 import ToolPanel from '@/components/workspace/ToolPanel';
 import Composer from '@/components/workspace/Composer';
 import Progress from '@/components/workspace/Progress';
 import ChatThread from '@/components/workspace/ChatThread';
-import SignOutButton from '@/components/SignOutButton';
 import { CloseIcon } from '@/components/workspace/icons';
 import type { ChatMessage, Source, SourceType, ToolType } from '@/components/workspace/types';
 
@@ -222,7 +222,12 @@ export default function StudioPage() {
           >
             Tools
           </button>
-          <SignOutButton className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-white/[0.06]" />
+          <Link
+            href="/library"
+            className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-white/[0.06]"
+          >
+            Library
+          </Link>
         </div>
       </header>
 

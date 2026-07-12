@@ -13,7 +13,6 @@
  */
 import { NextResponse } from 'next/server';
 import { chatCompletion, type ChatMessage } from '@/lib/ai';
-import { requireUser } from '@/lib/session';
 
 interface BrainVideo {
   url?: string;
@@ -22,8 +21,6 @@ interface BrainVideo {
 }
 
 export async function POST(request: Request) {
-  const { response } = await requireUser();
-  if (response) return response;
   let body: unknown;
   try {
     body = await request.json();

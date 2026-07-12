@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { listContent } from '@/lib/storage';
-import { requireUser } from '@/lib/session';
 
 export async function GET() {
-  const { response } = await requireUser();
-  if (response) return response;
   try {
     const items = await listContent();
     return NextResponse.json({ items }, { status: 200 });

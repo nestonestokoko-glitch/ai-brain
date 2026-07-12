@@ -66,7 +66,7 @@ export default function Sidebar({
           )}
         </div>
         <p className="mt-1 text-xs text-zinc-500">
-          Resources stay available for this session.
+          Resources stay available while you work.
         </p>
         <div className="mt-3 grid grid-cols-3 gap-2 text-center">
           <Stat icon={YouTubeIcon} n={counts.youtube} label="Videos" />

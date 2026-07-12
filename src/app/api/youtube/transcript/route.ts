@@ -27,7 +27,6 @@
 
 import { NextResponse } from 'next/server';
 import { fetchYoutubeTranscript } from '@/lib/apify';
-import { requireUser } from '@/lib/session';
 
 /** Loose check that the URL points at YouTube. We don't extract the ID here. */
 function isValidYouTubeUrl(url: unknown): url is string {
@@ -45,8 +44,6 @@ function isValidYouTubeUrl(url: unknown): url is string {
 }
 
 export async function POST(request: Request) {
-  const { response } = await requireUser();
-  if (response) return response;
   let body: unknown;
   try {
     body = await request.json();

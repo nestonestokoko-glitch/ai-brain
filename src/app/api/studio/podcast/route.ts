@@ -9,11 +9,8 @@
  */
 import { NextResponse } from 'next/server';
 import { chatCompletion, parseJson } from '@/lib/ai';
-import { requireUser } from '@/lib/session';
 
 export async function POST(request: Request) {
-  const { response } = await requireUser();
-  if (response) return response;
   let body: unknown;
   try {
     body = await request.json();

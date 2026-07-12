@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getYouTubeVideoData } from '@/lib/youtube';
 import { insertContent } from '@/lib/storage';
-import { requireUser } from '@/lib/session';
 
 export async function POST(request: Request) {
-  const { response } = await requireUser();
-  if (response) return response;
   const { url } = await request.json();
 
   if (!url || typeof url !== 'string') {

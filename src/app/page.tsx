@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import SignInGate from '@/components/SignInGate';
 import ScrollReveal from '@/components/ScrollReveal';
+import MobileNav from '@/components/MobileNav';
 import {
   SparkIcon,
   YouTubeIcon,
@@ -85,16 +85,16 @@ export default function Home() {
       <ScrollReveal />
       {/* Floating capsule nav — fixed, centered, enlarged; adapted from the
           spec's sticky capsule (dark translucent instead of off-white). */}
-      <header className="fixed left-1/2 top-5 z-50 -translate-x-1/2">
+      <header className="fixed left-1/2 top-3 z-50 w-[calc(100vw-1rem)] -translate-x-1/2 sm:top-5 sm:w-auto">
         <div
-          className="flex items-center gap-6 rounded-full border border-white/10 px-7 py-3 backdrop-blur-xl"
+          className="flex items-center justify-between gap-3 rounded-full border border-white/10 px-4 py-2 backdrop-blur-xl sm:gap-6 sm:px-7 sm:py-3"
           style={{
             background: 'rgba(5,7,13,0.72)',
             boxShadow: '0 8px 30px rgba(0,0,0,0.35)',
           }}
         >
           <Link href="/" className="flex items-center whitespace-nowrap">
-            <span className="text-xl font-semibold tracking-tight text-white">
+            <span className="text-base font-semibold tracking-tight text-white sm:text-xl">
               Second Brain AI
             </span>
           </Link>
@@ -109,14 +109,24 @@ export default function Home() {
               Studio
             </Link>
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/library"
-              className="rounded-lg px-4 py-2 text-base font-medium text-zinc-200 transition hover:bg-white/5"
+              className="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/5 sm:block sm:px-4 sm:text-base"
             >
               Library
             </Link>
-            <SignInGate />
+            <Link
+              href="/studio"
+              className="group relative inline-flex h-10 shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[40px] border-2 border-black/5 px-4 text-sm font-semibold text-white transition-all duration-300 ease-out hover:scale-105 active:scale-100 sm:h-11 sm:px-6 sm:text-[17px]"
+              style={{
+                backgroundColor: 'rgb(110, 70, 30)',
+                boxShadow: 'inset 0 -4px 4px 0 rgb(19, 99, 72)',
+              }}
+            >
+              <span className="relative">Open Studio</span>
+            </Link>
+            <MobileNav />
           </div>
         </div>
       </header>

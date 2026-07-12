@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { requireUser } from '@/lib/session';
 
 function extractText(html: string): string {
   let s = html
@@ -19,8 +18,6 @@ function extractText(html: string): string {
 }
 
 export async function POST(request: Request) {
-  const { response } = await requireUser();
-  if (response) return response;
 
   let body: unknown;
   try {
