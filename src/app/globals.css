@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── AI Brain — premium dark Blue / Black AI workspace ─────────────────────── */
+@layer components {
+  .ws-surface {
+    @apply bg-[#05070d] text-zinc-100;
+  }
+  /* Futuristic ambient backdrop: soft blue/indigo glow on near-black. */
+  .ws-app-bg {
+    background:
+      radial-gradient(70% 50% at 50% -10%, rgba(37, 99, 235, 0.18), transparent 60%),
+      radial-gradient(50% 40% at 85% 5%, rgba(99, 102, 241, 0.12), transparent 55%),
+      radial-gradient(45% 40% at 10% 15%, rgba(14, 165, 233, 0.08), transparent 55%),
+      #05070d;
+  }
+  .ws-glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      0 18px 50px -20px rgba(2, 6, 23, 0.9);
+  }
+  .ws-card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      0 18px 50px -20px rgba(2, 6, 23, 0.9);
+  }
+  .ws-input {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-[15px] leading-relaxed text-zinc-100 placeholder-zinc-500 outline-none transition focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10;
+  }
+  .ws-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .ws-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition;
+    background-image: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    box-shadow: 0 10px 30px -8px rgba(37, 99, 235, 0.6);
+  }
+  .ws-btn-primary:hover {
+    box-shadow: 0 12px 36px -8px rgba(37, 99, 235, 0.8);
+    filter: brightness(1.06);
+  }
+  .ws-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-zinc-300 transition;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .ws-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+  }
+  .ws-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs font-medium text-zinc-300;
+  }
+}
+
+@keyframes ws-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ws-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ws-drawer {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.ws-animate-fade { animation: ws-fade 0.2s ease-out both; }
+.ws-animate-rise { animation: ws-rise 0.28s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ws-animate-drawer { animation: ws-drawer 0.26s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.ws-scroll { scrollbar-width: thin; scrollbar-color: rgba(148,163,184,0.3) transparent; }
+.ws-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.ws-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+.ws-scroll::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
+.ws-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* Indeterminate shimmer in blue tones for active processing. */
+@keyframes ws-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.ws-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    rgba(37, 99, 235, 0.15) 25%,
+    rgba(99, 102, 241, 0.4) 50%,
+    rgba(37, 99, 235, 0.15) 75%
+  );
+  background-size: 200% 100%;
+  animation: ws-shimmer 1.4s linear infinite;
+}
+
+/* Scroll-reveal: cards bounce up when they enter the viewport. */
+@keyframes ws-bounce-up {
+  0% { opacity: 0; transform: translateY(40px); }
+  60% { opacity: 1; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.ws-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+.ws-reveal.is-visible {
+  animation: ws-bounce-up 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ws-reveal { opacity: 1; transform: none; }
+  .ws-reveal.is-visible { animation: none; }
+}
