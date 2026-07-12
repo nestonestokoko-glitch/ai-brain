@@ -70,11 +70,23 @@ export async function chatCompletion(
     model,
     messages,
     temperature: opts.temperature ?? 0.4,
-    max_tokens: opts.maxTokens,
+    // Cap output so reasoning models can't run away and time out the serverless function.
+    max_tokens: opts.maxTokens ?? 1500,
     response_format: opts.json ? { type: 'json_object' } : undefined,
   });
 
-  const content = response.choices?.[0]?.message?.content ?? '';
+  const msg = response.choices?.[0]?.message as
+    | { content?: string | null; reasoning?: string | null }
+    | undefined;
+  // Some reasoning models (e.g. tencent/hy3) put their answer in `reasoning`
+  // and leave `content` null. Fall back to reasoning so the user still gets a reply.
+  const content = (msg?.content ?? '').trim() || (msg?.reasoning ?? '').trim();
+
+  if (!content) {
+    throw new Error(
+      `The model "${model}" returned an empty response. It may be rate-limited or out of credits.`
+    );
+  }
   return content;
 }
 
