@@ -159,8 +159,8 @@ export default function Composer({
         />
       )}
 
-      <div className="mt-2 flex items-center justify-between gap-2 border-t border-white/10 pt-3">
-        <div className="flex items-center gap-2">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setMode(mode === 'youtube' ? 'chat' : 'youtube')}
@@ -196,7 +196,12 @@ export default function Composer({
         </div>
 
         {mode === 'chat' && (
-          <RadialGlowButton type="button" onClick={onSend} disabled={!canSend}>
+          <RadialGlowButton
+            type="button"
+            onClick={onSend}
+            disabled={!canSend}
+            className="ml-auto shrink-0"
+          >
             Send
           </RadialGlowButton>
         )}
@@ -205,7 +210,7 @@ export default function Composer({
             type="button"
             onClick={confirmYouTube}
             disabled={!canConfirm}
-            className="ws-btn-primary px-5 py-2"
+            className="ws-btn-primary ml-auto shrink-0 px-5 py-2"
           >
             <CheckIcon width={16} height={16} /> Confirm
           </button>
@@ -215,7 +220,7 @@ export default function Composer({
             type="button"
             onClick={addWebsite}
             disabled={!canAddWeb}
-            className="ws-btn-primary px-5 py-2"
+            className="ws-btn-primary ml-auto shrink-0 px-5 py-2"
           >
             Add link
           </button>
