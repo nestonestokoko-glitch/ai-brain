@@ -24,11 +24,14 @@ create index if not exists content_objects_created_at_idx
 -- Row Level Security
 alter table public.content_objects enable row level security;
 
--- Demo policy: allow anon key full access (single-user / demo mode).
--- Tighten this once you add real auth.
+-- Per-user isolation: each authenticated account can only read and write
+-- its own rows. The API routes are also gated by protectApi()
+-- (src/lib/supabase/server.ts), so an unauthenticated request is
+-- rejected before it ever reaches the table.
 drop policy if exists "allow all (demo)" on public.content_objects;
-create policy "allow all (demo)"
+drop policy if exists "users manage own content" on public.content_objects;
+create policy "users manage own content"
   on public.content_objects
   for all
-  using (true)
-  with check (true);
+  using (user_id = auth.uid()::text)
+  with check (user_id = auth.uid()::text);

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { AuthLink } from '@/components/auth/AuthLink';
+import { UserMenu } from '@/components/auth/UserMenu';
 
 // Hamburger menu shown on mobile (md:hidden). Reveals the nav links that are
 // hidden in the capsule on small screens.
@@ -32,6 +34,9 @@ export default function MobileNav() {
 
       {open && (
         <div className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-white/10 bg-[#05070d] p-1 shadow-2xl ws-animate-fade">
+          <div className="px-2 py-1.5">
+            <UserMenu />
+          </div>
           <a
             href="#how"
             onClick={() => setOpen(false)}
@@ -46,20 +51,20 @@ export default function MobileNav() {
           >
             Features
           </a>
-          <Link
+          <AuthLink
             href="/studio"
             onClick={() => setOpen(false)}
             className="block rounded-lg px-3 py-2 text-sm text-zinc-300 transition hover:bg-white/5 hover:text-white"
           >
             Studio
-          </Link>
-          <Link
+          </AuthLink>
+          <AuthLink
             href="/library"
             onClick={() => setOpen(false)}
             className="block rounded-lg px-3 py-2 text-sm text-zinc-300 transition hover:bg-white/5 hover:text-white"
           >
             Library
-          </Link>
+          </AuthLink>
         </div>
       )}
     </div>

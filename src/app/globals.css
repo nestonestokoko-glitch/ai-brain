@@ -19,6 +19,97 @@
   }
 }
 
+/* ── Auth screen — light & dark, follows system preference by default ───── */
+:root {
+  /* dark (default) */
+  --auth-bg-1: rgba(37, 99, 235, 0.16);
+  --auth-bg-2: rgba(99, 102, 241, 0.10);
+  --auth-bg-base: #05070d;
+  --auth-card: rgba(255, 255, 255, 0.04);
+  --auth-card-border: rgba(255, 255, 255, 0.10);
+  --auth-card-shadow: 0 24px 70px -24px rgba(2, 6, 23, 0.9);
+  --auth-title: #ffffff;
+  --auth-muted: #9ca3af;
+  --auth-google-bg: rgba(255, 255, 255, 0.92);
+  --auth-google-text: #1f2937;
+  --auth-google-border: rgba(255, 255, 255, 0.14);
+  --auth-google-hover: #ffffff;
+}
+:root[data-auth-theme='light'] {
+  --auth-bg-1: rgba(37, 99, 235, 0.12);
+  --auth-bg-2: rgba(99, 102, 241, 0.10);
+  --auth-bg-base: #f6f8fc;
+  --auth-card: rgba(255, 255, 255, 0.85);
+  --auth-card-border: rgba(15, 23, 42, 0.08);
+  --auth-card-shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.18);
+  --auth-title: #0b1220;
+  --auth-muted: #5b6472;
+  --auth-google-bg: #ffffff;
+  --auth-google-text: #1f2937;
+  --auth-google-border: rgba(15, 23, 42, 0.12);
+  --auth-google-hover: #f3f4f6;
+}
+
+@layer components {
+  .auth-root {
+    color: var(--auth-title);
+    background:
+      radial-gradient(60% 50% at 50% -10%, var(--auth-bg-1), transparent 60%),
+      radial-gradient(45% 40% at 85% 10%, var(--auth-bg-2), transparent 55%),
+      var(--auth-bg-base);
+  }
+  .auth-card {
+    border-color: var(--auth-card-border);
+    background: var(--auth-card);
+    box-shadow: var(--auth-card-shadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .auth-title {
+    color: var(--auth-title);
+  }
+  .auth-muted {
+    color: var(--auth-muted);
+  }
+  .auth-google {
+    background: var(--auth-google-bg);
+    color: var(--auth-google-text);
+    border: 1px solid var(--auth-google-border);
+  }
+  .auth-google:hover {
+    background: var(--auth-google-hover);
+  }
+  .auth-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--auth-card-border);
+    background: var(--auth-card);
+    color: var(--auth-title);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .auth-input::placeholder {
+    color: var(--auth-muted);
+    opacity: 0.8;
+  }
+  .auth-input:focus {
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
+  }
+  .auth-submit {
+    background-image: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #fff;
+    box-shadow: 0 10px 30px -8px rgba(37, 99, 235, 0.6);
+  }
+  .auth-submit:hover {
+    box-shadow: 0 12px 36px -8px rgba(37, 99, 235, 0.8);
+    filter: brightness(1.06);
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -45,7 +136,15 @@ body {
       0 18px 50px -20px rgba(2, 6, 23, 0.9);
   }
   .ws-card {
-    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    @apply rounded-2xl border border-white/10 backdrop-blur-xl;
+    /* AI Brain gradient-glass fill — brand blue/indigo tint adapted from the
+       reference ScreenTimeCard's light blue/purple/pink gradient. */
+    background-image: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.10) 0%,
+      rgba(255, 255, 255, 0.03) 45%,
+      rgba(255, 255, 255, 0) 100%
+    );
     box-shadow:
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
       0 18px 50px -20px rgba(2, 6, 23, 0.9);

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { UserMenu } from '@/components/auth/UserMenu';
 import Sidebar from '@/components/workspace/Sidebar';
 import ToolPanel from '@/components/workspace/ToolPanel';
 import Composer from '@/components/workspace/Composer';
@@ -228,6 +229,7 @@ export default function StudioPage() {
           >
             Library
           </Link>
+          <UserMenu />
         </div>
       </header>
 

@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getVideoMetadata } from '@/lib/video';
+import { protectApi } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
+
   let body: unknown;
   try {
     body = await request.json();

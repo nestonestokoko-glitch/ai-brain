@@ -13,6 +13,7 @@
  */
 import { NextResponse } from 'next/server';
 import { chatCompletion, type ChatMessage } from '@/lib/ai';
+import { protectApi } from '@/lib/supabase/server';
 
 interface BrainVideo {
   url?: string;
@@ -21,6 +22,9 @@ interface BrainVideo {
 }
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
+
   let body: unknown;
   try {
     body = await request.json();

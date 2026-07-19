@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { protectApi } from '@/lib/supabase/server';
 
 function extractText(html: string): string {
   let s = html
@@ -18,6 +19,8 @@ function extractText(html: string): string {
 }
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
 
   let body: unknown;
   try {

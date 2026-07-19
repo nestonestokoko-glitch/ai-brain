@@ -27,6 +27,7 @@
 
 import { NextResponse } from 'next/server';
 import { fetchYoutubeTranscript } from '@/lib/apify';
+import { protectApi } from '@/lib/supabase/server';
 
 /** Loose check that the URL points at YouTube. We don't extract the ID here. */
 function isValidYouTubeUrl(url: unknown): url is string {
@@ -44,6 +45,9 @@ function isValidYouTubeUrl(url: unknown): url is string {
 }
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
+
   let body: unknown;
   try {
     body = await request.json();

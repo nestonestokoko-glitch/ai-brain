@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getYouTubeVideoData } from '@/lib/youtube';
 import { insertContent } from '@/lib/storage';
+import { protectApi } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
+
   const { url } = await request.json();
 
   if (!url || typeof url !== 'string') {

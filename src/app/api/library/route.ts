@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { listContent } from '@/lib/storage';
+import { protectApi } from '@/lib/supabase/server';
 
 export async function GET() {
+  const denied = await protectApi();
+  if (denied) return denied;
+
   try {
     const items = await listContent();
     return NextResponse.json({ items }, { status: 200 });

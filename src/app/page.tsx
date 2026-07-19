@@ -1,46 +1,35 @@
 import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import MobileNav from '@/components/MobileNav';
-import {
-  SparkIcon,
-  YouTubeIcon,
-  WebsiteIcon,
-  PdfIcon,
-  BrainIcon,
-  SearchIcon,
-  BookIcon,
-  PodcastIcon,
-  SummarizeIcon,
-} from '@/components/workspace/icons';
+import Hero from '@/components/Hero';
+import { CardSpotlight } from '@/components/ui/card-spotlight';
+import { SparkIcon } from '@/components/workspace/icons';
+import { AuthLink } from '@/components/auth/AuthLink';
+import { UserMenu } from '@/components/auth/UserMenu';
+import Image from 'next/image';
 
 const features = [
   {
-    icon: YouTubeIcon,
     title: 'YouTube Summarization',
     body: 'Paste a link and get a clean, structured summary of any video — transcripts pulled automatically.',
   },
   {
-    icon: PodcastIcon,
     title: 'Podcast Transcription',
     body: 'Turn long audio into searchable text and tight summaries you can actually finish.',
   },
   {
-    icon: WebsiteIcon,
     title: 'Article Extraction',
     body: 'Strip the clutter from articles and web pages, then distill the key ideas in seconds.',
   },
   {
-    icon: BrainIcon,
     title: 'Personal Library',
     body: 'Every summary is saved to your own knowledge base, organized and ready to revisit.',
   },
   {
-    icon: SearchIcon,
     title: 'Search & Revisit',
     body: 'Find anything you saved by keyword or topic. Your past reading is always one search away.',
   },
   {
-    icon: BookIcon,
     title: 'Multiple Formats',
     body: 'Quick takeaways, five key points, detailed notes, or beginner-friendly explainers — your call.',
   },
@@ -48,17 +37,14 @@ const features = [
 
 const steps = [
   {
-    icon: YouTubeIcon,
     title: 'Import Content',
     body: 'Drop in a YouTube link, podcast, or article URL. One click and it’s captured.',
   },
   {
-    icon: BrainIcon,
     title: 'AI Processes It',
     body: 'We transcribe, extract, and distill the signal from hours of content.',
   },
   {
-    icon: BookIcon,
     title: 'Read & Save',
     body: 'Get a clean summary you can read in minutes and keep forever in your library.',
   },
@@ -94,9 +80,7 @@ export default function Home() {
           }}
         >
           <Link href="/" className="flex items-center whitespace-nowrap">
-            <span className="text-base font-semibold tracking-tight text-white sm:text-xl">
-              Second Brain AI
-            </span>
+            <Image src="/logo.png" alt="Logo" width={48} height={48} className="mr-2" priority />
           </Link>
           <nav className="hidden items-center gap-7 text-base font-medium text-zinc-300 md:flex">
             <a href="#how" className="transition hover:text-white">
@@ -105,18 +89,18 @@ export default function Home() {
             <a href="#features" className="transition hover:text-white">
               Features
             </a>
-            <Link href="/studio" className="transition hover:text-white">
+            <AuthLink href="/studio" className="transition hover:text-white">
               Studio
-            </Link>
+            </AuthLink>
           </nav>
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link
+            <AuthLink
               href="/library"
               className="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/5 sm:block sm:px-4 sm:text-base"
             >
               Library
-            </Link>
-            <Link
+            </AuthLink>
+            <AuthLink
               href="/studio"
               className="group relative inline-flex h-10 shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[40px] border-2 border-black/5 px-4 text-sm font-semibold text-white transition-all duration-300 ease-out hover:scale-105 active:scale-100 sm:h-11 sm:px-6 sm:text-[17px]"
               style={{
@@ -124,126 +108,15 @@ export default function Home() {
                 boxShadow: 'inset 0 -4px 4px 0 rgb(19, 99, 72)',
               }}
             >
-              <span className="relative">Open Studio</span>
-            </Link>
+              <span className="relative">OpenAI Studio</span>
+            </AuthLink>
+            <UserMenu />
             <MobileNav />
           </div>
         </div>
       </header>
 
-      {/* Hero — marketing copy over a brand-aligned focus glow + vignette. */}
-      <section className="relative overflow-hidden ws-app-bg px-6 pt-[180px] pb-20 text-center">
-        {/* Vignette: subtle radial depth so the copy sits on a focused field
-            (adapts the spec's white→orange vignette to this project's dark
-            blue brand). */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(circle at 50% 38%, rgba(59,130,246,0.10) 0%, rgba(5,7,13,0) 60%)',
-          }}
-        />
-        {/* Focus glow behind the headline (adapted from brand blue). Mirrors
-            the spec's .framer-u247s3::before — blurred radial glow, centered
-            behind the headline, non-interactive. */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-[20%] -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: '600px',
-            height: '600px',
-            background:
-              'radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(99,102,241,0.06) 45%, rgba(255,255,255,0) 70%)',
-            filter: 'blur(60px)',
-            zIndex: 0,
-          }}
-        />
-        <div className="relative z-10 mx-auto max-w-5xl">
-          <h1 className="text-4xl font-semibold tracking-tight text-white leading-[1.2] uppercase sm:text-6xl lg:text-7xl">
-            Your <span className="text-green-400">AI Brain</span> for
-            <br />
-            summarizing videos
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
-            Turn YouTube videos, articles, and PDFs into one searchable knowledge
-            workspace. Summarize, podcast, chat, and build — without the busywork.
-          </p>
-
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/studio"
-              className="group relative flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-blue-300 px-7 py-3 text-sm font-medium text-white transition-all duration-300 ease-out hover:scale-105 hover:border-blue-200 active:scale-100"
-              style={{
-                backgroundImage: 'linear-gradient(135deg, #3b82f6, #60a5fa, #2563eb)',
-                boxShadow:
-                  '0 8px 24px -6px rgba(59,130,246,0.45), inset 0 1px 0 0 rgba(255,255,255,0.3)',
-              }}
-            >
-              <span
-                className="relative flex items-center transition-transform duration-300 group-hover:translate-x-1"
-                style={{
-                  textShadow:
-                    'rgba(0,0,0,0.25) 0px 2px 8px, rgb(30,58,138) 0px 1px 0px',
-                }}
-              >
-                <span className="mr-2 transition-transform duration-300 group-hover:rotate-12">
-                  <SparkIcon width={16} height={16} />
-                </span>
-                Let's Start
-              </span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Product preview — mirrors the Synix dashboard image. */}
-        <div className="relative mx-auto mt-16 max-w-5xl ws-animate-rise">
-          <div className="ws-card overflow-hidden p-0">
-            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-              <span className="h-3 w-3 rounded-full bg-white/10" />
-              <span className="h-3 w-3 rounded-full bg-white/10" />
-              <span className="h-3 w-3 rounded-full bg-white/10" />
-              <span className="ml-3 text-xs text-zinc-500">AI Brain — Workspace</span>
-            </div>
-            <div className="grid gap-4 p-5 sm:grid-cols-[200px_1fr]">
-              <div className="hidden space-y-2 sm:block">
-                {[
-                  'Summarize Video',
-                  'Create Podcast',
-                  'Chat with Videos',
-                  'Build an AI System',
-                ].map((t, i) => (
-                  <div
-                    key={t}
-                    className={
-                      'rounded-lg border px-3 py-2 text-xs text-zinc-300 ' +
-                      (i === 0
-                        ? 'border-blue-500/30 bg-blue-500/10'
-                        : 'border-white/10 bg-white/[0.03]')
-                    }
-                  >
-                    {t}
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-3">
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <div className="h-2.5 w-1/3 rounded bg-blue-400/40" />
-                  <div className="mt-3 h-2 w-full rounded bg-white/10" />
-                  <div className="mt-2 h-2 w-5/6 rounded bg-white/10" />
-                  <div className="mt-2 h-2 w-2/3 rounded bg-white/10" />
-                </div>
-                <div className="flex gap-2">
-                  <div className="h-9 flex-1 rounded-lg border border-white/10 bg-white/[0.03]" />
-                  <div
-                    className="h-9 w-24 rounded-lg"
-                    style={{ backgroundImage: 'linear-gradient(135deg,#2563eb,#4f46e5)' }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* How it works */}
       <section id="how" className="border-t border-white/10 py-20">
@@ -254,22 +127,12 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-xl text-center text-zinc-400">
             Three simple steps from a raw link to a saved summary.
           </p>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {steps.map((step, i) => (
-              <div
-                key={step.title}
-                className="ws-card relative p-8 ws-reveal"
-                style={{ animationDelay: `${i * 90}ms` }}
-              >
-                <span className="absolute -top-4 left-8 grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white">
-                  {i + 1}
-                </span>
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-500/10 text-blue-300">
-                  <step.icon width={26} height={26} />
-                </div>
-                <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-                <p className="mt-2 text-zinc-400">{step.body}</p>
-              </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {steps.map((s) => (
+              <CardSpotlight key={s.title} className="p-6">
+                <h3 className="text-lg font-semibold text-white">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{s.body}</p>
+              </CardSpotlight>
             ))}
           </div>
         </div>
@@ -281,15 +144,12 @@ export default function Home() {
           <h2 className="text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Everything you need to read less, learn more
           </h2>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => (
-              <div key={f.title} className="ws-card p-6 ws-reveal transition hover:border-blue-500/40" style={{ animationDelay: `${i * 90}ms` }}>
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-300">
-                  <f.icon width={22} height={22} />
-                </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => (
+              <CardSpotlight key={f.title} className="p-6" href="/studio">
                 <h3 className="text-lg font-semibold text-white">{f.title}</h3>
-                <p className="mt-2 text-sm text-zinc-400">{f.body}</p>
-              </div>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{f.body}</p>
+              </CardSpotlight>
             ))}
           </div>
         </div>
@@ -348,12 +208,12 @@ export default function Home() {
           <h2 className="text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Why people use Second Brain AI
           </h2>
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {benefits.map((b, i) => (
-              <div key={b.title} className="ws-card p-8 ws-reveal text-center" style={{ animationDelay: `${i * 90}ms` }}>
-                <h3 className="text-xl font-semibold text-white">{b.title}</h3>
-                <p className="mt-3 text-zinc-400">{b.body}</p>
-              </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((b) => (
+              <CardSpotlight key={b.title} className="p-6">
+                <h3 className="text-lg font-semibold text-white">{b.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{b.body}</p>
+              </CardSpotlight>
             ))}
           </div>
         </div>
@@ -377,19 +237,19 @@ export default function Home() {
             you’ll actually finish.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
+            <AuthLink
               href="/studio"
               className="w-full rounded-xl px-8 py-4 text-center text-base font-semibold text-white shadow-[0_10px_40px_-10px_rgba(37,99,235,0.7)] transition hover:scale-[1.02] sm:w-auto"
               style={{ backgroundImage: 'linear-gradient(135deg,#2563eb,#4f46e5)' }}
             >
               Summarize a Video
-            </Link>
-            <Link
+            </AuthLink>
+            <AuthLink
               href="/library"
               className="w-full rounded-xl border border-white/15 px-8 py-4 text-center text-base font-semibold text-zinc-200 transition hover:bg-white/5 sm:w-auto"
             >
               Browse Library
-            </Link>
+            </AuthLink>
           </div>
         </div>
       </section>

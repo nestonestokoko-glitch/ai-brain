@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
+import { protectApi } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
+  const denied = await protectApi();
+  if (denied) return denied;
+
 
   let form: FormData;
   try {
