@@ -2,10 +2,12 @@ import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import MobileNav from '@/components/MobileNav';
 import Hero from '@/components/Hero';
+import { MarqueeShowcase } from '@/components/MarqueeShowcase';
+import { FaqSection } from '@/components/FaqSection';
 import { CardSpotlight } from '@/components/ui/card-spotlight';
-import { SparkIcon } from '@/components/workspace/icons';
 import { AuthLink } from '@/components/auth/AuthLink';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { StudioButton } from '@/components/auth/StudioButton';
 import Image from 'next/image';
 
 const features = [
@@ -50,20 +52,42 @@ const steps = [
   },
 ];
 
-const benefits = [
-  {
-    title: 'Save time',
-    body: 'Turn a three-hour podcast into a five-minute read. Skip what doesn’t matter.',
-  },
-  {
-    title: 'Learn faster',
-    body: 'Absorb the ideas, not the filler. Retain more by reading instead of binge-watching.',
-  },
-  {
-    title: 'Build a knowledge base',
-    body: 'Stop drowning in open tabs. Keep everything in one searchable place.',
-  },
-];
+type StepCardProps = { index: number; title: string; body: string };
+
+function StepCard({ index, title, body }: StepCardProps) {
+  return (
+    <div className="group relative overflow-hidden rounded-xl p-[1px] bg-slate-800 transition-colors duration-300">
+      {/* Interactive glow layer */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            'radial-gradient(180px at 50% 50%, rgba(59,130,246,0.45), transparent 80%)',
+        }}
+      />
+      {/* Inner content */}
+      <div className="relative flex h-full flex-col rounded-[11px] bg-black p-5 md:p-6">
+        <div className="relative z-10 mb-6 w-full overflow-hidden rounded-xl border border-white/10 bg-zinc-950">
+          <Image
+            src={`/card${index + 1}.png`}
+            alt={title}
+            width={600}
+            height={400}
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="h-auto w-full object-contain"
+          />
+        </div>
+        <div className="relative z-10 flex flex-1 flex-col gap-3">
+          <span className="text-xs font-semibold uppercase tracking-widest text-blue-400">
+            Step 0{index + 1}
+          </span>
+          <h3 className="text-lg font-semibold text-white">{title}</h3>
+          <p className="text-sm leading-relaxed text-zinc-400">{body}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -73,14 +97,14 @@ export default function Home() {
           spec's sticky capsule (dark translucent instead of off-white). */}
       <header className="fixed left-1/2 top-3 z-50 w-[calc(100vw-1rem)] -translate-x-1/2 sm:top-5 sm:w-auto">
         <div
-          className="flex items-center justify-between gap-3 rounded-full border border-white/10 px-4 py-2 backdrop-blur-xl sm:gap-6 sm:px-7 sm:py-3"
+          className="flex items-center gap-3 rounded-full border border-white/10 px-4 py-2 backdrop-blur-xl sm:gap-6 sm:px-7 sm:py-3"
           style={{
             background: 'rgba(5,7,13,0.72)',
             boxShadow: '0 8px 30px rgba(0,0,0,0.35)',
           }}
         >
           <Link href="/" className="flex items-center whitespace-nowrap">
-            <Image src="/logo.png" alt="Logo" width={48} height={48} className="mr-2" priority />
+            <Image src="/lodo2.0.png" alt="Logo" width={48} height={48} className="mr-2" priority />
           </Link>
           <nav className="hidden items-center gap-7 text-base font-medium text-zinc-300 md:flex">
             <a href="#how" className="transition hover:text-white">
@@ -93,24 +117,15 @@ export default function Home() {
               Studio
             </AuthLink>
           </nav>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <UserMenu showSignin={false} />
+          <div className="flex flex-1 items-center gap-2 sm:ml-auto sm:flex-none sm:gap-3">
             <AuthLink
               href="/library"
               className="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/5 sm:block sm:px-4 sm:text-base"
             >
               Library
             </AuthLink>
-            <AuthLink
-              href="/studio"
-              className="group relative inline-flex h-10 shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[40px] border-2 border-black/5 px-4 text-sm font-semibold text-white transition-all duration-300 ease-out hover:scale-105 active:scale-100 sm:h-11 sm:px-6 sm:text-[17px]"
-              style={{
-                backgroundColor: 'rgb(110, 70, 30)',
-                boxShadow: 'inset 0 -4px 4px 0 rgb(19, 99, 72)',
-              }}
-            >
-              <span className="relative">OpenAI Studio</span>
-            </AuthLink>
-            <UserMenu />
+            <StudioButton />
             <MobileNav />
           </div>
         </div>
@@ -128,11 +143,8 @@ export default function Home() {
             Three simple steps from a raw link to a saved summary.
           </p>
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {steps.map((s) => (
-              <CardSpotlight key={s.title} className="p-6">
-                <h3 className="text-lg font-semibold text-white">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{s.body}</p>
-              </CardSpotlight>
+            {steps.map((s, i) => (
+              <StepCard key={s.title} index={i} title={s.title} body={s.body} />
             ))}
           </div>
         </div>
@@ -155,72 +167,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Example summary preview */}
-      <section className="border-y border-white/10 bg-white/[0.02] py-20">
-        <div className="mx-auto max-w-3xl px-6">
-          <p className="text-center text-sm font-semibold uppercase tracking-widest text-blue-300">
-            Example summary
-          </p>
-          <h2 className="mt-2 text-center text-3xl font-bold tracking-tight text-white">
-            This is what you get
-          </h2>
-          <div className="ws-card mt-10 overflow-hidden ws-reveal">
-            <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-              <span className="rounded-md bg-red-500/10 px-2 py-1 text-xs font-medium text-red-400">
-                YouTube
-              </span>
-              <span className="truncate text-sm font-medium text-zinc-200">
-                The Science of Better Learning — Full Talk
-              </span>
-            </div>
-            <div className="space-y-6 px-6 py-6">
-              <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                  Five key points
-                </h4>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-300">
-                  <li>Spaced repetition beats cramming for long-term recall.</li>
-                  <li>Teaching a concept forces you to find the gaps in your own understanding.</li>
-                  <li>Active recall is more effective than re-reading by a wide margin.</li>
-                  <li>Interleaving topics improves discrimination between similar ideas.</li>
-                  <li>Sleep consolidates memory — rest is part of the study plan.</li>
-                </ul>
-              </div>
-              <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] p-4">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-300">
-                  AI summary
-                </h4>
-                <p className="mt-2 text-sm text-zinc-300">
-                  The talk reframes learning as a process of retrieval, not consumption.
-                  The speaker argues most study time is wasted on passive re-reading, and
-                  shows how small habits — quizzes, teaching, and rest — compound into
-                  dramatically better retention.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Example summary — seamless two-row marquee */}
+      <MarqueeShowcase />
 
-      {/* Benefits */}
-      <section id="benefits" className="py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Why people use Second Brain AI
-          </h2>
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map((b) => (
-              <CardSpotlight key={b.title} className="p-6">
-                <h3 className="text-lg font-semibold text-white">{b.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{b.body}</p>
-              </CardSpotlight>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* FAQ — replaces the old "Why people use Second Brain AI" benefits section */}
+      <FaqSection />
 
       {/* Final CTA */}
-      <section className="relative overflow-hidden border-t border-white/10 py-24">
+      <section className="relative overflow-hidden border-t border-white/10 bg-black py-24">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -229,18 +183,17 @@ export default function Home() {
           }}
         />
         <div className="relative mx-auto max-w-3xl px-6 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="bg-gradient-to-r from-[#F95C01] via-white to-[#D1FE17] bg-clip-text font-serif text-5xl font-normal leading-tight tracking-tight text-transparent md:text-7xl">
             Start Summarizing
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-zinc-400">
+          <p className="mx-auto mt-4 max-w-xl text-base text-zinc-300 sm:text-lg">
             Turn the next video or article you were “going to watch later” into something
             you’ll actually finish.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <AuthLink
               href="/studio"
-              className="w-full rounded-xl px-8 py-4 text-center text-base font-semibold text-white shadow-[0_10px_40px_-10px_rgba(37,99,235,0.7)] transition hover:scale-[1.02] sm:w-auto"
-              style={{ backgroundImage: 'linear-gradient(135deg,#2563eb,#4f46e5)' }}
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-white via-white/95 to-white/60 px-8 text-base font-semibold text-black transition-all hover:scale-105 active:scale-95 sm:w-auto"
             >
               Summarize a Video
             </AuthLink>
@@ -257,15 +210,6 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-white/10 py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
-          <div className="flex items-center gap-2">
-            <span
-              className="grid h-7 w-7 place-items-center rounded-lg text-white"
-              style={{ backgroundImage: 'linear-gradient(135deg,#2563eb,#4f46e5)' }}
-            >
-              <SparkIcon width={15} height={15} />
-            </span>
-            <span className="text-sm font-medium text-zinc-300">Second Brain AI</span>
-          </div>
           <p className="text-sm text-zinc-500">
             Built with Next.js, Supabase, and AI.
           </p>

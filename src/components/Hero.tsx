@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Poppins } from 'next/font/google';
 import heroBg from '@/assets/hero-bg.png';
 import { AuthLink } from '@/components/auth/AuthLink';
+import { CylinderCarousel } from '@/components/CylinderCarousel';
 
 // Poppins is scoped to this hero only (via the --font-poppins variable on the
 // root below) so it never overrides the app-wide Geist font elsewhere.
@@ -34,7 +36,32 @@ function ArrowRight({ className = '', size = 16 }: { className?: string; size?: 
   );
 }
 
+// Images for the hero cylinder carousel.
+const chatgptImages = [
+  { src: '/chatgpt1.png', alt: 'ChatGPT 1' },
+  { src: '/chatgpt2.png', alt: 'ChatGPT 2' },
+  { src: '/chatgpt3.png', alt: 'ChatGPT 3' },
+  { src: '/chatgpt4.png', alt: 'ChatGPT 4' },
+  { src: '/chatgpt5.png', alt: 'ChatGPT 5' },
+  { src: '/chatgpt6.png', alt: 'ChatGPT 6' },
+];
+
+// A fuller cylinder for wide screens — the set is repeated so more cards
+// spread around the ring.
+const desktopCarouselImages = [...chatgptImages, ...chatgptImages];
+
 export default function Hero() {
+  // Use a fuller cylinder (more cards) on desktop; keep the 5-card ring on mobile.
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  const carouselImages = isDesktop ? desktopCarouselImages : chatgptImages;
+
   return (
     <section
       className={
@@ -87,9 +114,27 @@ export default function Hero() {
           </Link>
         </aside>
 
-        {/* Gradient headline */}
+        {/* Gradient headline — mobile: 288px box, 3 lines */}
         <h1
-          className="mb-6 max-w-[1024px] px-6 text-center text-3xl font-medium leading-tight md:text-4xl lg:text-7xl lg:leading-[1.2]"
+          className="mb-6 block w-[288px] px-2 text-center text-3xl font-medium leading-tight md:hidden"
+          style={{
+            background: 'linear-gradient(to bottom, #ffffff, #ffffff, rgba(255,255,255,0.6))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            letterSpacing: '-0.05em',
+          }}
+        >
+          Your AI Brain for
+          <br />
+          summarizing
+          <br />
+          videos
+        </h1>
+
+        {/* Gradient headline — desktop: restored original full-width, 2 lines */}
+        <h1
+          className="mb-6 hidden max-w-[1024px] px-6 text-center text-3xl font-medium leading-tight md:block md:text-4xl lg:text-7xl lg:leading-[1.2]"
           style={{
             background: 'linear-gradient(to bottom, #ffffff, #ffffff, rgba(255,255,255,0.6))',
             WebkitBackgroundClip: 'text',
@@ -103,8 +148,13 @@ export default function Hero() {
           summarizing videos
         </h1>
 
-        {/* Subtitle */}
-        <p className="mb-10 max-w-2xl px-6 text-center text-sm text-zinc-400 md:text-base">
+        {/* Subtitle — mobile: short version */}
+        <p className="mb-10 block max-w-2xl px-6 text-center text-sm text-zinc-400 md:hidden">
+          Summarize, podcast, chat, and build — without the busywork.
+        </p>
+
+        {/* Subtitle — desktop: full version */}
+        <p className="mb-10 hidden max-w-2xl px-6 text-center text-sm text-zinc-400 md:block md:text-base">
           Turn YouTube videos, articles, and PDFs into one searchable knowledge
           workspace. Summarize, podcast, chat, and build — without the busywork.
         </p>
@@ -122,8 +172,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Product preview — external dashboard screenshot with a brand glow behind it. */}
-      <div className="relative w-full max-w-5xl pb-20">
+      {/* Product preview — full-width static card row with a brand glow behind it. */}
+      <div className="relative w-full pb-20">
         {/* Glow behind the image (adapted from the template's glows.png, done in
             CSS so there's no external dependency). */}
         <div
@@ -138,13 +188,11 @@ export default function Hero() {
         />
 
         <div className="relative z-10">
-          <video
-            src="/hero-preview.mp4"
-            className="w-full rounded-xl border border-white/10 shadow-2xl"
-            autoPlay
-            muted
-            loop
-            playsInline
+          <CylinderCarousel
+            images={carouselImages}
+            className="mx-auto"
+            cardClassName="shadow-2xl"
+            gap={isDesktop ? 22 : 8}
           />
         </div>
       </div>

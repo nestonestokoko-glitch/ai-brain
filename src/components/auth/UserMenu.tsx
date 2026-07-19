@@ -93,7 +93,7 @@ function MenuButton({
   );
 }
 
-export function UserMenu() {
+export function UserMenu({ showSignin = true }: { showSignin?: boolean }) {
   const { user, signOut, signingOut } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -109,6 +109,7 @@ export function UserMenu() {
   }, []);
 
   if (!user) {
+    if (!showSignin) return null;
     return (
       <Link href="/login" className="ws-btn-ghost px-4 py-2">
         Sign in

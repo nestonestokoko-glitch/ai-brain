@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SectionCard } from './SectionCard';
+import { TypingDots } from './TypingDots';
 import { Button } from './Card';
 import { VideoData, ChatMsg, BrainVideo } from './types';
 
@@ -142,10 +143,7 @@ export function BrainSection({
                 </div>
               ))}
               {chatLoading && (
-                <div className="flex items-center gap-2 text-sm text-zinc-400">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-300 border-t-blue-600" />
-                  thinking across {videos.length} videos…
-                </div>
+                <TypingDots label={`thinking across ${videos.length} videos…`} />
               )}
             </div>
 

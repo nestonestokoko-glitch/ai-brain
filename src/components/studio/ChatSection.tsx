@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { SectionCard } from './SectionCard';
+import { TypingDots } from './TypingDots';
 import { VideoData, ChatMsg } from './types';
 
 export function ChatSection({
@@ -83,10 +84,7 @@ export function ChatSection({
           ))}
           {typing && <Bubble role="assistant" content={typing} />}
           {loading && !typing && (
-            <div className="flex items-center gap-2 text-sm text-zinc-400">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-300 border-t-blue-600" />
-              thinking…
-            </div>
+            <TypingDots label="thinking…" />
           )}
         </div>
 
